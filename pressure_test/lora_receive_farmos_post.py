@@ -3,6 +3,7 @@ import busio
 import digitalio
 from digitalio import DigitalInOut
 import time
+import gc
 
 # Get Wifi and FarmOS details
 try:
@@ -62,34 +63,39 @@ rfm9x = adafruit_rfm9x.RFM9x(lora_spi, cs, reset, 915.0)
 
 # connect to wifi
 
-connect(WIFI_ESSID,WIFI_PASS)
+
 
 # main loop
 
 while True:
 
+    gc.collect()
+
+    connect(WIFI_ESSID,WIFI_PASS)
     print("radio waiting ...")
     packet = rfm9x.receive(timeout=TIMEOUT)
 
     if packet is not None:
-        #try:
-        pt = str(packet, 'ascii')
-        print("Received: ",pt)
-        pl=pt.strip().split(',')
-        if len(pl)==3:
-            temp=pl[0]
-            pressure=pl[1]
-            depth=pl[2]
-                
-            json_data = {"temp" : temp,"pressure" : pressure, "depth" : depth}
+        try:
+            pt = str(packet, 'ascii')
+            print("Received: ",pt)
+            pl=pt.strip().split(',')
+            if len(pl)==3:
+                temp=pl[0]
+                pressure=pl[1]
+                depth=pl[2]
+                    
+                json_data = {"temp" : temp,"pressure" : pressure, "depth" : depth}
 
-            print("Posting to ",JSON_POST_URL)
+                print("Posting to ",JSON_POST_URL)
 
-            response = requests.post(JSON_POST_URL, json=json_data)
-            print(response.content)
+                response = requests.post(JSON_POST_URL, json=json_data)
+                #print(response.content)
 
-            response.close()
-            time.sleep(90)
+                response.close()
 
-            #except Exception as e:
-                #print("error: "+str(e))
+                print("Done. Sleeping for 90 sec")
+                time.sleep(90)
+
+        except Exception as e:
+                print("error: "+str(e))
