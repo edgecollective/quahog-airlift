@@ -17,7 +17,7 @@ except ImportError:
 WIFI_ESSID=secrets['ssid']
 WIFI_PASS=secrets['password']
 farmos_pubkey=secrets['farmos_pubkey']
-farmos_privkey=secrets['farmos-privkey']
+farmos_privkey=secrets['farmos_privkey']
 
 base_url= "https://edgecollective.farmos.net/farm/sensor/listener/"
 
