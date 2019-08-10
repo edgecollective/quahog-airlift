@@ -7,15 +7,21 @@ import time
 WIFI_ESSID = b'InmanSquareOasis'
 WIFI_PASS = b'portauprince'
 
+# Get Wifi and FarmOS details
+try:
+    from secrets import secrets
+except ImportError:
+    print("WiFi secrets are kept in secrets.py, please add them there!")
+    raise
 
-# FarmOS
-
-pubkey="6d001af9149683de838efbca1db0a18a"
-privkey="64d1f8b42295483c388ac8afb0158fc6"
+WIFI_ESSID=secrets['ssid']
+WIFI_PASS=secrets['password']
+farmos_pubkey=secrets['farmos_pubkey']
+farmos_privkey=secrets['farmos-privkey']
 
 base_url= "https://edgecollective.farmos.net/farm/sensor/listener/"
 
-JSON_POST_URL = base_url+pubkey+"?private_key="+privkey
+JSON_POST_URL = base_url+farmos_pubkey+"?private_key="+farmos_privkey
 
 # esp32
 
