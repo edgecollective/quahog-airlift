@@ -81,12 +81,12 @@ while True:
         print("Received: ",val)
 
         json_data = {"Analog" : str(val)}
-        #json_data = {"Analog" : "32.3"}
-        # post to Farm OS
-        #JSON_POST_URL = "https://edgecollective.farmos.net/farm/sensor/listener/362097895e6bd9b13403ffd703b5257b?private_key=c49b4270cbc47151070e773dfb0fda32"
+
         print("Posting to ",JSON_POST_URL)
+
         response = requests.post(JSON_POST_URL, json=json_data)
-        print(response)
+        print(response.content)
+
         response.close()
         time.sleep(90)
 
