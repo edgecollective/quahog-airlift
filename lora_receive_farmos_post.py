@@ -4,9 +4,6 @@ import digitalio
 from digitalio import DigitalInOut
 import time
 
-WIFI_ESSID = b'InmanSquareOasis'
-WIFI_PASS = b'portauprince'
-
 # Get Wifi and FarmOS details
 try:
     from secrets import secrets
